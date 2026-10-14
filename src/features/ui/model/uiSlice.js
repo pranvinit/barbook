@@ -8,7 +8,11 @@ const initialState = {
 export const toggleTheme = createAsyncThunk(
   "ui/toggleTheme",
   (theme, { dispatch }) => {
-    localStorage.setItem("theme", theme);
+    try {
+      localStorage.setItem("theme", theme);
+    } catch (e) {
+      // storage unavailable; the theme still applies for this session
+    }
     document.documentElement.dataset["theme"] = theme;
     dispatch(setTheme(theme));
   }

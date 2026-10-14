@@ -16,11 +16,8 @@ import BarHistory from "@/features/bars/ui/BarHistory";
 import ScribbleLoader from "@/components/ui/scribble-loader/ScribbleLoader";
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
-import ThemeManager from "@/components/ThemeManager";
-import { useSelector } from "react-redux";
-import { selectTheme } from "@/features/ui/model/uiSlice";
 
-function Home() {
+export default function NotebookPage() {
   const { isLoading: isSessionLoading } = useSession();
   const { data: profile, isError } = useProfile();
 
@@ -78,14 +75,5 @@ function Home() {
         <BarEditor />
       </div>
     </div>
-  );
-}
-
-export default function NotebookPage() {
-  const theme = useSelector(selectTheme);
-  return (
-    <ThemeManager theme={theme}>
-      <Home />
-    </ThemeManager>
   );
 }

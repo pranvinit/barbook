@@ -2,6 +2,7 @@ import "./globals.css";
 import { StoreProvider } from "../lib/redux/provider";
 import Navbar from "../components/layout/Navbar";
 import AuthListener from "@/features/auth/ui/AuthListener";
+import ThemeManager from "@/components/ThemeManager";
 import { Inter, IBM_Plex_Mono, Permanent_Marker } from "next/font/google";
 
 const inter = Inter({
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
       <body>
         <StoreProvider>
           <AuthListener />
+          <ThemeManager />
           <Navbar />
           {children}
         </StoreProvider>
