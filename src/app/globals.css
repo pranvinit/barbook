@@ -172,6 +172,9 @@ html {
 }
 
 body {
+  /* reset.css pins body to 100% height; let it grow with the page so the
+     ruled lines and margin line cover all of it */
+  height: auto;
   min-height: 100vh;
   position: relative;
   /* Content starts to the right of the margin line, like real paper */
