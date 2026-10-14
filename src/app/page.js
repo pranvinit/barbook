@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import "./landing.css";
 
 export const metadata = {
@@ -15,7 +16,12 @@ const RUBRIC = [
   { label: "Originality", score: 7.9 },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <main className="landing">
       <section className="hero" aria-labelledby="hero-title">
@@ -30,11 +36,13 @@ export default function LandingPage() {
           </p>
           <div className="hero-actions">
             <Link href="/notebook" className="cta-sticker">
-              Open your notebook
+              {user ? "Back to your notebook" : "Open your notebook"}
             </Link>
-            <Link href="/login" className="cta-secondary">
-              Sign in
-            </Link>
+            {!user && (
+              <Link href="/login" className="cta-secondary">
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
 
