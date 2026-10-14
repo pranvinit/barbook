@@ -58,7 +58,7 @@ cp .env.example .env.local
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API (anon / publishable key) |
 | `GOOGLE_GENAI_API_KEY` | Google AI Studio |
-| `GOOGLE_GENAI_MODEL_ID` | Optional, defaults to `gemini-2.5-flash` |
+| `GOOGLE_GENAI_MODEL_ID` | Optional, defaults to `gemini-3.8-flash` |
 
 ### 3. Database
 

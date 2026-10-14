@@ -1,18 +1,33 @@
-import { GoogleGenAI } from "@google/genai";
+import { ApiError, GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 
-export const MODEL = process.env.GOOGLE_GENAI_MODEL_ID || "gemini-2.5-flash";
+export const MODEL = process.env.GOOGLE_GENAI_MODEL_ID || "gemini-3.8-flash";
 const MAX_ATTEMPTS = 2;
+
+// Keep a busy model (429/503) from hanging the request: the SDK default is
+// 5 attempts with up to 60s between them and no timeout.
+const HTTP_OPTIONS = {
+  timeout: 20_000,
+  retryOptions: { attempts: 2, initialDelay: 1, maxDelay: 4 },
+};
 
 let ai;
 function getClient() {
   if (!ai) {
-    ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GENAI_API_KEY });
+    ai = new GoogleGenAI({
+      apiKey: process.env.GOOGLE_GENAI_API_KEY,
+      httpOptions: HTTP_OPTIONS,
+    });
   }
   return ai;
 }
 
 export class LlmError extends Error {}
+
+// Gemini is overloaded or rate limiting; worth retrying later.
+export function isModelBusy(error) {
+  return error instanceof ApiError && [429, 500, 503, 504].includes(error.status);
+}
 
 function toResponseSchema(schema) {
   const { $schema, ...jsonSchema } = z.toJSONSchema(schema);
