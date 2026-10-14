@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { LlmError } from "@/lib/llm";
+import { LlmError, isModelBusy } from "@/lib/llm";
 
 /**
  * Validates a JSON body against a Zod schema.
@@ -30,6 +30,12 @@ export function notFound(message = "Not found") {
 
 export function serverError(error, context) {
   console.error(`${context}:`, error);
+  if (isModelBusy(error) || error?.name === "AbortError" || /timed? ?out/i.test(error?.message)) {
+    return NextResponse.json(
+      { error: "Gemini is busy right now. Try again in a minute." },
+      { status: 503 }
+    );
+  }
   if (error instanceof LlmError) {
     return NextResponse.json(
       { error: "The AI judge is having a moment. Try again." },
