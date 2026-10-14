@@ -20,6 +20,7 @@
   font-family: var(--font-display);
   font-size: var(--font-size-lg);
   padding: 0 var(--spacing-sm);
+  color: var(--accent-ink);
   z-index: 0;
 }
 
@@ -27,7 +28,7 @@
 .navbar-wordmark::before {
   content: "";
   position: absolute;
-  inset: 40% -2px 6% -2px;
+  inset: 8% -2px 4% -2px;
   z-index: -1;
   background: linear-gradient(
     90deg,
