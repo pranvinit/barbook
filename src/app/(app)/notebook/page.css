@@ -6,9 +6,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
-  /* Keep content to the right of the red margin line */
-  padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-xl)
-    calc(var(--margin-x) + var(--spacing-md));
+  /* body already pads past the red margin line */
+  padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-xl);
   min-width: 0;
   max-width: 100%;
 }
@@ -16,6 +15,7 @@
 .top {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.15fr) minmax(0, 1.25fr);
+  grid-template-areas: "left center right";
   align-items: stretch;
   gap: var(--spacing-lg);
   height: clamp(480px, calc(100vh - 300px), 900px);
@@ -30,6 +30,18 @@
     overflow-y: auto;
     padding-bottom: var(--spacing-xs, 4px);
   }
+}
+
+.top > .left {
+  grid-area: left;
+}
+
+.top > .center {
+  grid-area: center;
+}
+
+.top > .right {
+  grid-area: right;
 }
 
 .center-top {
@@ -99,6 +111,22 @@
   min-width: 0;
 }
 
+/* Laptops and tablets: profile across the top, bars and tabs below */
+@media (max-width: 1100px) and (min-width: 769px) {
+  .top {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "center center"
+      "left right";
+    grid-template-rows: auto 560px;
+    height: auto;
+  }
+
+  .top > .center {
+    overflow-y: visible;
+  }
+}
+
 @media (max-width: 768px) {
   .home {
     padding: var(--spacing-md);
@@ -107,6 +135,10 @@
 
   .top {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "center"
+      "left"
+      "right";
     height: auto;
     gap: var(--spacing-lg);
 
@@ -116,7 +148,19 @@
     }
   }
 
-  .center-top {
+  .top > .left {
+  grid-area: left;
+}
+
+.top > .center {
+  grid-area: center;
+}
+
+.top > .right {
+  grid-area: right;
+}
+
+.center-top {
     flex-direction: column;
   }
 }
