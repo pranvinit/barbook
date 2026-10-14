@@ -40,7 +40,7 @@
 .custom-button::before {
   position: absolute;
   bottom: -20px;
-  content: var(--button-text, "Send Flirt");
+  content: var(--button-text, "Submit");
   color: white;
   font-size: 0px;
 }

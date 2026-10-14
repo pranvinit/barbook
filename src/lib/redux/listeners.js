@@ -1,3 +1,4 @@
+import { isRejectedWithValue } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
 import { clearProfile } from "@/features/profile/model/profileSlice";
 import { toast } from "react-toastify";
@@ -10,40 +11,44 @@ export function setupListeners(startListening) {
     effect: async (action) => {
       const { profileData } = action.meta.arg.originalArgs;
       const updatedField = Object.keys(profileData)[0];
-      toast.success(`Profile ${updatedField} updated! 🥀`);
+      toast.success(`Profile ${updatedField} updated`);
     },
   });
 
   startListening({
-    matcher: apiSlice.endpoints.createFlirt.matchFulfilled,
+    matcher: apiSlice.endpoints.createBar.matchFulfilled,
     effect: async (action) => {
-      const { ai_score } = action.payload;
-      toast.success(`You got an AI score of ${ai_score} on your flirt! 🫦`);
+      toast.success(`Scored ${action.payload.overall}/10`);
     },
   });
 
   startListening({
-    matcher: apiSlice.endpoints.updateFlirt.matchFulfilled,
+    matcher: apiSlice.endpoints.updateBar.matchFulfilled,
     effect: async (action) => {
-      const { ai_score } = action.payload;
-      toast.success(
-        `You got an AI score of ${ai_score} on your updated flirt! 🫦`
-      );
+      toast.success(`Rewrite scored ${action.payload.overall}/10`);
     },
   });
 
   startListening({
-    matcher: apiSlice.endpoints.deleteFlirt.matchFulfilled,
+    matcher: apiSlice.endpoints.deleteBar.matchFulfilled,
+    effect: async () => {
+      toast.info("Bar deleted");
+    },
+  });
+
+  // Surface API errors (quota, validation, AI failures) from any request.
+  startListening({
+    predicate: (action) => isRejectedWithValue(action),
     effect: async (action) => {
-      const { id } = action.payload;
-      toast.warn(`Flirt with id ${id} deleted successfully 🫦`);
+      const message = action.payload?.data?.error;
+      if (message) toast.error(message);
     },
   });
 
   startListening({
     actionCreator: clearProfile.fulfilled,
     effect: async () => {
-      toast.info("Profile cleared 🕵🏼‍♂️");
+      toast.info("Profile cleared");
     },
   });
 }

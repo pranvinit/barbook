@@ -1,7 +1,7 @@
 import "./custom-button.css";
 
 const CustomButton = ({
-  text = "Send Flirt",
+  text = "Submit",
   variant = "accent",
   onClick = () => {},
   icon = "send",

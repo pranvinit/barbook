@@ -1,4 +1,4 @@
-.top-flirts {
+.top-bars {
   flex: 1;
   padding: var(--spacing-md);
   border-top-left-radius: var(--radius-md);
@@ -6,13 +6,13 @@
   overflow-y: auto;
 }
 
-.top-flirts-header {
+.top-bars-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.top-flirt-list {
+.top-bar-list {
   margin-top: var(--spacing-md);
   display: flex;
   flex-direction: column;

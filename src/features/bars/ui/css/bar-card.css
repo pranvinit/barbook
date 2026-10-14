@@ -1,4 +1,4 @@
-.flirt-card {
+.bar-card {
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
   display: flex;
@@ -6,29 +6,29 @@
   gap: var(--spacing-sm);
 }
 
-.flirt-card small {
+.bar-card small {
   font-size: var(--font-size-xs);
   color: var(--text-muted);
 }
 
-.flirt-card[data-selected="true"] {
+.bar-card[data-selected="true"] {
   border: 2px solid var(--accent);
 }
 
-.flirt-header {
+.bar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-sm);
 }
 
-.flirt-header .flirt-icons {
+.bar-header .bar-icons {
   border-radius: var(--radius-md);
   padding: 4px 6px;
   cursor: pointer;
 }
 
-.flirt-icons button {
+.bar-icons button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,19 +40,35 @@
   transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.flirt-actions {
+.bar-actions {
   display: flex;
   gap: var(--spacing-sm);
   margin-left: auto;
 }
 
-.flirt-actions .action-button {
+.bar-actions .action-button {
   padding: 4px 12px;
   border-radius: var(--radius-md);
 }
-.flirt-actions .action-button:nth-child(1) {
+.bar-actions .action-button:nth-child(1) {
   --section-color: var(--accent-warning);
 }
-.flirt-actions .action-button:nth-child(2):hover {
+.bar-actions .action-button:nth-child(2):hover {
   --section-color: var(--accent-danger);
+}
+
+.bar-text {
+  white-space: pre-line;
+}
+
+.judgement-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+}
+
+.bar-feedback {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
 }

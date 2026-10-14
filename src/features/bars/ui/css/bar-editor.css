@@ -1,4 +1,4 @@
-.add-flirt {
+.bar-editor {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -7,13 +7,13 @@
   gap: var(--spacing-lg);
 }
 
-.add-flirt-input {
+.bar-editor-input {
   flex: 1;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-xxl);
 }
 
-.add-flirt-actions {
+.bar-editor-actions {
   width: 300px;
   display: flex;
   align-items: center;
@@ -22,19 +22,25 @@
 }
 
 @media (max-width: 768px) {
-  .add-flirt {
+  .bar-editor {
     padding-inline: var(--spacing-sm);
     flex-direction: column;
     align-items: stretch;
   }
 
-  .add-flirt-actions {
+  .bar-editor-actions {
     width: unset;
     flex: 1;
     gap: var(--spacing-xxl);
   }
 
-  .add-flirt-actions .custom-button:nth-of-type(1) {
+  .bar-editor-actions .custom-button:nth-of-type(1) {
     order: 1;
   }
+}
+
+.bar-editor-input {
+  resize: none;
+  font: inherit;
+  color: inherit;
 }

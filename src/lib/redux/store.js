@@ -6,7 +6,7 @@ import { apiSlice } from "./apiSlice";
 // reducer imports
 import authReducer from "../../features/auth/model/authSlice";
 import profileReducer from "../../features/profile/model/profileSlice";
-import flirtsReducer from "../../features/flirts/model/flirtsSlice";
+import barsReducer from "../../features/bars/model/barsSlice";
 import uiReducer from "../../features/ui/model/uiSlice";
 
 // middleware imports
@@ -20,7 +20,7 @@ export const makeStore = () => {
     reducer: {
       auth: authReducer,
       profile: profileReducer,
-      flirts: flirtsReducer,
+      bars: barsReducer,
       ui: uiReducer,
       [apiSlice.reducerPath]: apiSlice.reducer,
     },

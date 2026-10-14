@@ -2,7 +2,7 @@ import "./css/profile-judgement.css";
 import { useJudgeProfileQuery } from "../api/profileApi";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useProfileQueryArg } from "@/lib/hooks/useProfileQueryArg";
-import AIScore from "../../flirts/ui/AIScore";
+import ScoreBadge from "@/components/ui/score-badge/ScoreBadge";
 import PrimarySpinner from "@/components/ui/spinners/PrimarySpinner";
 
 const ProfileJudgement = () => {
@@ -32,7 +32,7 @@ const ProfileJudgement = () => {
       {isError && <p>Error loading profile judgement.</p>}
       {judgement && (
         <>
-          <AIScore
+          <ScoreBadge
             isLoading={isLoading}
             score={judgement.profileScore}
             label="Profile Score"

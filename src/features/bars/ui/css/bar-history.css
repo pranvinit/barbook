@@ -1,4 +1,4 @@
-.flirt-history {
+.bar-history {
   flex: 1;
   padding: var(--spacing-md);
   border-top-left-radius: var(--radius-md);
@@ -6,7 +6,7 @@
   overflow-y: auto;
 }
 
-.flirt-history-list {
+.bar-history-list {
   margin-top: var(--spacing-md);
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
 }
 
 @media (max-width: 768px) {
-  .flirt-history {
+  .bar-history {
     height: 600px;
     overflow-y: auto;
   }

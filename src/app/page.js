@@ -5,13 +5,13 @@ import { useState } from "react";
 import { useAuth } from "../lib/hooks/useAuth";
 
 // component imports
-import AddFlirt from "../features/flirts/ui/AddFlirt";
+import BarEditor from "../features/bars/ui/BarEditor";
 import ProfileEssentials from "../features/profile/ui/ProfileEssentials";
 import ProfileInterests from "../features/profile/ui/ProfileInterests";
-import SuggestedFlirtList from "../features/flirts/ui/SuggestedFlirtList";
-import TopFlirtList from "../features/flirts/ui/TopFlirtList";
+import GhostwriterPanel from "../features/ghostwriter/ui/GhostwriterPanel";
+import TopBars from "../features/bars/ui/TopBars";
 import ProfileJudgement from "../features/profile/ui/ProfileJudgement";
-import FlirtHistoryList from "../features/flirts/ui/FlirtHistoryList";
+import BarHistory from "../features/bars/ui/BarHistory";
 import AuthLoading from "../components/ui/auth-loading/AuthLoading";
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
@@ -32,7 +32,7 @@ function Home() {
     <div className="home">
       <div className="top">
         <div className="left">
-          <FlirtHistoryList />
+          <BarHistory />
         </div>
         <div className="center">
           <div className="center-top g-bg">
@@ -54,29 +54,29 @@ function Home() {
               className={`tab-button ${activeTab === "top" ? "g-fg" : ""}`}
               onClick={() => setActiveTab("top")}
             >
-              Top
+              Hall of fame
               <em>
                 <DiamondRoundedIcon fontSize="small" />
               </em>
             </button>
             <button
               className={`tab-button ${
-                activeTab === "suggested" ? "g-fg" : ""
+                activeTab === "ghostwriter" ? "g-fg" : ""
               }`}
-              onClick={() => setActiveTab("suggested")}
+              onClick={() => setActiveTab("ghostwriter")}
             >
-              Suggested
+              Ghostwriter
               <em>
                 <AutoAwesomeRoundedIcon fontSize="small" />
               </em>
             </button>
           </div>
-          {activeTab === "top" && <TopFlirtList />}
-          {activeTab === "suggested" && <SuggestedFlirtList />}
+          {activeTab === "top" && <TopBars />}
+          {activeTab === "ghostwriter" && <GhostwriterPanel />}
         </div>
       </div>
       <div className="bottom">
-        <AddFlirt />
+        <BarEditor />
       </div>
     </div>
   );
