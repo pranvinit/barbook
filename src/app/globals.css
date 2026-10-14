@@ -1,25 +1,52 @@
 @import url("../lib/styles/reset.css");
 
+/* ===== Barbook: a rapper's lined notebook =====
+   Light = paper notebook. Dark = "studio at 3am".
+   Other components consume the tokens below; keep the names stable. */
+
 :root {
-  /* Background images */
-  --bg-image-light: url("../assets/bg-light.png");
-  --bg-image-dark: url("../assets/bg-dark.png");
-  --bg-blur: blur(32px);
+  color-scheme: light;
 
-  /* Light theme (default) */
-  --bg-image: var(--bg-image-light);
-  --accent: #ff1694;
-  --accent-glass: rgba(255, 22, 148, 0.3);
-  --accent-warning: #ff8c00;
-  --accent-danger: #ff4757;
+  /* ---- Palette: light (default) ---- */
+  --paper: #fbf8f1;
+  --paper-line: rgba(74, 118, 170, 0.14);
+  --margin-line: rgba(232, 85, 78, 0.55);
+  --surface: #fffefa;
+  --surface-raised: #f3efe4;
+  --border: rgba(20, 20, 20, 0.14);
+  --border-strong: #1a1a1a;
+  --ink: #161616;
+  --ink-muted: #5f5b54;
 
-  /* Primary and secondary colors */
-  --primary: #ffffff;
-  --secondary: #e0e0e0;
+  --accent: #ffe14d;
+  --accent-ink: #161616;
+  --accent-glass: rgba(255, 225, 77, 0.45);
+  --accent-warning: #e8770c;
+  --accent-danger: #d7263d;
 
-  /* Text colors */
-  --text-primary: #111827;
-  --text-muted: #6b7280;
+  /* Highlighter palette: yellow, pink, green, blue, orange, purple */
+  --hl-1: #ffe14d;
+  --hl-2: #ff9ecb;
+  --hl-3: #9be89b;
+  --hl-4: #8ed1ff;
+  --hl-5: #ffb35c;
+  --hl-6: #c9a8ff;
+
+  --focus-ring: #1f63d6;
+  --shadow-sticker: 3px 3px 0 var(--border-strong);
+
+  /* Left margin position of the red rule (wider on desktop) */
+  --margin-x: 44px;
+
+  /* Aliases kept for existing components.
+     --font-ui / --font-mono / --font-display are set by next/font in layout.js
+     on <html>, which is also :root, so they are not redeclared here. */
+  --primary: var(--surface);
+  --secondary: var(--surface-raised);
+  --text-primary: var(--ink);
+  --text-muted: var(--ink-muted);
+  --primary-font: var(--font-ui);
+  --heading-font: var(--font-display);
 
   /* Font sizes */
   --font-size-xl: 32px;
@@ -35,88 +62,178 @@
   --spacing-md: 16px;
   --spacing-sm: 8px;
 
-  /* border radius */
+  /* Border radius */
   --radius-circle: 50%;
   --radius-xxl: 48px;
-  --radius-md: 16px;
+  --radius-md: 10px;
   --radius-sm: 8px;
   --radius-xs: 4px;
 }
 
-[data-theme="dark"] {
-  /* Dark theme */
-  --bg-image: var(--bg-image-dark);
-  --accent: #ff1694;
-
-  /* Primary and secondary colors */
-  --primary: #121212;
-  --secondary: #1e1e1e;
-
-  /* Text colors */
-  --text-primary: #f9fafb;
-  --text-muted: #e5e7eb;
+@media (max-width: 768px) {
+  :root {
+    --margin-x: 10px;
+  }
 }
 
-/* Utility classes */
+/* Dark mode (system preference, unless the user picked light) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #121110;
+    --paper-line: rgba(255, 245, 230, 0.06);
+    --margin-line: rgba(255, 107, 107, 0.45);
+    --surface: #1c1b19;
+    --surface-raised: #262420;
+    --border: rgba(255, 245, 230, 0.14);
+    --border-strong: #e9e3d4;
+    --ink: #efe9dc;
+    --ink-muted: #a7a093;
+
+    --accent: #ffd60a;
+    --accent-ink: #121110;
+    --accent-glass: rgba(255, 214, 10, 0.32);
+    --accent-warning: #ff9f43;
+    --accent-danger: #ff5c5c;
+
+    --hl-1: #ffd60a;
+    --hl-2: #ff6fb5;
+    --hl-3: #57e389;
+    --hl-4: #5ab8ff;
+    --hl-5: #ff9f43;
+    --hl-6: #b48cff;
+
+    --focus-ring: #ffd60a;
+  }
+}
+
+/* Explicit dark mode (user toggle) */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #121110;
+  --paper-line: rgba(255, 245, 230, 0.06);
+  --margin-line: rgba(255, 107, 107, 0.45);
+  --surface: #1c1b19;
+  --surface-raised: #262420;
+  --border: rgba(255, 245, 230, 0.14);
+  --border-strong: #e9e3d4;
+  --ink: #efe9dc;
+  --ink-muted: #a7a093;
+
+  --accent: #ffd60a;
+  --accent-ink: #121110;
+  --accent-glass: rgba(255, 214, 10, 0.32);
+  --accent-warning: #ff9f43;
+  --accent-danger: #ff5c5c;
+
+  --hl-1: #ffd60a;
+  --hl-2: #ff6fb5;
+  --hl-3: #57e389;
+  --hl-4: #5ab8ff;
+  --hl-5: #ff9f43;
+  --hl-6: #b48cff;
+
+  --focus-ring: #ffd60a;
+}
+
+/* ===== Utility classes ===== */
+
+/* Panel: solid paper surface, ink border, sticker shadow */
 .g-bg {
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--surface);
+  border: 1.5px solid var(--border-strong);
+  box-shadow: var(--shadow-sticker);
+  border-radius: var(--radius-md);
 }
 
+/* Surface inside a panel, input, or secondary button */
 .g-fg {
-  background: rgba(255, 255, 255, var(--section-opacity, 0.3));
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--ink);
 }
 
+button.g-fg:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Accent surface (colour from --section-color) */
 .g-fg-color {
-  background: var(--section-color, rgba(255, 255, 255, 0.3));
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid var(--section-color, rgba(255, 255, 255, 0.3));
+  background: var(--section-color, var(--accent));
+  color: var(--accent-ink);
+  border: 1px solid var(--border-strong);
+}
+
+/* ===== Base ===== */
+
+html {
+  background: var(--paper);
 }
 
 body {
-  background-image: var(--bg-image);
-  background-size: cover;
-  background-position: center;
-  background-repeat: repeat-y;
-  background-attachment: fixed;
+  min-height: 100vh;
   position: relative;
-  color: var(--text-primary);
-  font-family: var(--primary-font, "sans-serif");
+  /* Content starts to the right of the margin line, like real paper */
+  padding-left: var(--margin-x);
+  color: var(--ink);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  background-color: var(--paper);
+  /* Red margin line, then faint ruled lines every 32px */
+  background-image:
+    linear-gradient(
+      to right,
+      transparent calc(var(--margin-x) - 1px),
+      var(--margin-line) calc(var(--margin-x) - 1px),
+      var(--margin-line) var(--margin-x),
+      transparent var(--margin-x)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 31px,
+      var(--paper-line) 31px,
+      var(--paper-line) 32px
+    );
+  background-attachment: local;
 }
 
-body h2,
+body h1,
+body h2 {
+  font-family: var(--font-display), cursive;
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+body h3,
+body h4,
 .profile-interests label {
   font-weight: 600;
-  font-family: var(--heading-font), sans-serif;
+}
+
+/* Bars, lyrics, and anything written as a verse */
+.bar-text {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  line-height: 1.6;
+}
+
+input,
+textarea,
+select {
+  color: var(--ink);
+  font-family: inherit;
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: var(--text-muted);
+  color: var(--ink-muted);
+  opacity: 0.8;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: var(--bg-image);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: var(--bg-blur);
-  z-index: -1;
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 button:disabled {

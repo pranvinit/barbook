@@ -1,7 +1,7 @@
 [class*="loader-"] {
   width: 1em;
   height: 1em;
-  color: inherit;
+  color: var(--ink);
   pointer-events: none;
   margin: 0 auto;
 }

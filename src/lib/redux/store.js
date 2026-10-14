@@ -4,8 +4,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
 
 // reducer imports
-import profileReducer from "../../features/profile/model/profileSlice";
-import flirtsReducer from "../../features/flirts/model/flirtsSlice";
+import authReducer from "../../features/auth/model/authSlice";
+import barsReducer from "../../features/bars/model/barsSlice";
 import uiReducer from "../../features/ui/model/uiSlice";
 
 // middleware imports
@@ -17,8 +17,8 @@ let listenersAreSetup = false;
 export const makeStore = () => {
   const store = configureStore({
     reducer: {
-      profile: profileReducer,
-      flirts: flirtsReducer,
+      auth: authReducer,
+      bars: barsReducer,
       ui: uiReducer,
       [apiSlice.reducerPath]: apiSlice.reducer,
     },

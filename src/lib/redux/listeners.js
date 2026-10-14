@@ -1,49 +1,39 @@
-import { apiSlice } from "./apiSlice";
-import { clearProfile } from "@/features/profile/model/profileSlice";
+import { isRejectedWithValue } from "@reduxjs/toolkit";
+// Import the injected endpoints directly so they exist on every page,
+// not only on pages that happen to load the feature APIs first.
+import { apiSliceWithBars } from "@/features/bars/api/barsApi";
 import { toast } from "react-toastify";
 
 export function setupListeners(startListening) {
   if (typeof window === "undefined") return;
 
   startListening({
-    matcher: apiSlice.endpoints.updateProfile.matchFulfilled,
+    matcher: apiSliceWithBars.endpoints.createBar.matchFulfilled,
     effect: async (action) => {
-      const { profileData } = action.meta.arg.originalArgs;
-      const updatedField = Object.keys(profileData)[0];
-      toast.success(`Profile ${updatedField} updated! 🥀`);
+      toast.success(`Scored ${action.payload.overall}/10`);
     },
   });
 
   startListening({
-    matcher: apiSlice.endpoints.createFlirt.matchFulfilled,
+    matcher: apiSliceWithBars.endpoints.updateBar.matchFulfilled,
     effect: async (action) => {
-      const { ai_score } = action.payload;
-      toast.success(`You got an AI score of ${ai_score} on your flirt! 🫦`);
+      toast.success(`Rewrite scored ${action.payload.overall}/10`);
     },
   });
 
   startListening({
-    matcher: apiSlice.endpoints.updateFlirt.matchFulfilled,
-    effect: async (action) => {
-      const { ai_score } = action.payload;
-      toast.success(
-        `You got an AI score of ${ai_score} on your updated flirt! 🫦`
-      );
-    },
-  });
-
-  startListening({
-    matcher: apiSlice.endpoints.deleteFlirt.matchFulfilled,
-    effect: async (action) => {
-      const { id } = action.payload;
-      toast.warn(`Flirt with id ${id} deleted successfully 🫦`);
-    },
-  });
-
-  startListening({
-    actionCreator: clearProfile.fulfilled,
+    matcher: apiSliceWithBars.endpoints.deleteBar.matchFulfilled,
     effect: async () => {
-      toast.info("Profile cleared 🕵🏼‍♂️");
+      toast.info("Bar deleted");
+    },
+  });
+
+  // Surface API errors (quota, validation, AI failures) from any request.
+  startListening({
+    predicate: (action) => isRejectedWithValue(action),
+    effect: async (action) => {
+      const message = action.payload?.data?.error;
+      if (message) toast.error(message);
     },
   });
 }

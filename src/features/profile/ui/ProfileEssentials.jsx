@@ -1,103 +1,92 @@
 import "./css/profile-essentials.css";
-import { useState, useRef, useCallback } from "react";
-import {
-  useUploadAvatarMutation,
-  useUpdateProfileMutation,
-} from "../api/profileApi";
-import { useAuth } from "@/lib/hooks/useAuth";
+import { useMemo, useRef, useState } from "react";
+import { useUploadAvatarMutation, useUpdateProfileMutation } from "../api/profileApi";
 import PrimarySpinner from "@/components/ui/spinners/PrimarySpinner";
-
 import { debounce } from "@/lib/utils/debounce";
 
-function ProfileEssentials({ name: nameProp, avatar_url: avatarUrlProp }) {
+const HANDLE_PATTERN = /^[a-z0-9_]{3,24}$/;
+
+function ProfileEssentials({ profile }) {
   const fileInputRef = useRef(null);
+  const [displayName, setDisplayName] = useState(profile.display_name || "");
+  const [handle, setHandle] = useState(profile.handle || "");
 
-  const [name, setName] = useState(nameProp || "");
-  const [avatarUrl, setAvatarUrl] = useState(avatarUrlProp || "");
+  const [uploadAvatar, { isLoading: isUploading }] = useUploadAvatarMutation();
+  const [updateProfile] = useUpdateProfileMutation();
 
-  const { uuid } = useAuth();
-  const [uploadAvatar, { isLoading: isUploadingAvatar }] =
-    useUploadAvatarMutation();
-  const [updateProfile, { isLoading: isUpdatingProfile }] =
-    useUpdateProfileMutation();
-
-  const handleAvatarUpload = async (e) => {
-    const file = e.target.files[0];
-
-    if (file && file.type.startsWith("image/")) {
-      try {
-        const result = await uploadAvatar({ file, uuid }).unwrap();
-
-        setAvatarUrl(result.avatar_url);
-
-        await updateProfile({
-          uuid,
-          profileData: { avatar_url: result.avatar_url },
-        }).unwrap();
-      } catch (error) {
-        console.error("Error uploading avatar:", error);
-      }
-    }
-  };
-
-  const debouncedUpdateProfile = useCallback(
-    debounce(async (newName) => {
-      if (!uuid || !newName.trim()) return;
-      try {
-        await updateProfile({
-          uuid,
-          profileData: { name: newName },
-        }).unwrap();
-      } catch (error) {
-        console.error("Error updating name:", error);
-      }
-    }, 500),
-    [updateProfile, uuid]
+  const saveLater = useMemo(
+    () => debounce((fields) => updateProfile(fields), 600),
+    [updateProfile]
   );
 
-  const handleNameChange = (e) => {
-    const newName = e.target.value;
-    setName(newName);
-
-    if (newName.trim()) {
-      debouncedUpdateProfile(newName);
-    }
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file?.type.startsWith("image/")) uploadAvatar(file);
+    e.target.value = "";
   };
+
+  const handleNameChange = (e) => {
+    setDisplayName(e.target.value);
+    if (e.target.value.trim()) saveLater({ display_name: e.target.value });
+  };
+
+  const handleHandleChange = (e) => {
+    const value = e.target.value.toLowerCase().replace(/^@/, "");
+    setHandle(value);
+    if (HANDLE_PATTERN.test(value)) saveLater({ handle: value });
+  };
+
+  const handleIsInvalid = handle.length > 0 && !HANDLE_PATTERN.test(handle);
 
   return (
     <div className="profile-essentials">
       <input
         type="file"
         ref={fileInputRef}
-        id="avatar_url"
-        accept="image/*"
-        style={{ display: "none" }}
-        onChange={handleAvatarUpload}
+        accept="image/png,image/jpeg,image/webp,image/gif"
+        hidden
+        onChange={handleAvatarChange}
       />
-      <div
+      <button
+        type="button"
         className="avatar-preview"
-        onClick={() => !isUploadingAvatar && fileInputRef.current.click()}
-        style={{ cursor: isUploadingAvatar ? "wait" : "pointer" }}
+        onClick={() => fileInputRef.current.click()}
+        disabled={isUploading}
+        aria-label="Change avatar"
       >
-        {isUploadingAvatar ? (
-          <div className="avatar-spinner">
+        {isUploading ? (
+          <span className="avatar-spinner">
             <PrimarySpinner style={{ fontSize: 48, color: "var(--accent)" }} />
-          </div>
+          </span>
+        ) : profile.avatar_url ? (
+          <img src={profile.avatar_url} alt="" />
         ) : (
-          <img
-            src={avatarUrl || "https://placehold.co/100x100"}
-            alt="Avatar Preview"
-          />
+          <span className="avatar-placeholder">{(displayName || "?").charAt(0)}</span>
         )}
-      </div>
-      <div className="name-input g-fg">
+      </button>
+      <div className="name-input">
         <input
           type="text"
-          id="name"
-          placeholder="Name"
-          value={name}
+          className="name-input-field"
+          aria-label="Artist name"
+          placeholder="Artist name"
+          maxLength={60}
+          value={displayName}
           onChange={handleNameChange}
         />
+        <input
+          type="text"
+          className="handle-input"
+          aria-label="Handle"
+          aria-invalid={handleIsInvalid}
+          placeholder="@handle"
+          maxLength={24}
+          value={handle ? `@${handle}` : ""}
+          onChange={handleHandleChange}
+        />
+        {handleIsInvalid && (
+          <small className="field-hint">3-24 letters, numbers or underscores</small>
+        )}
       </div>
     </div>
   );

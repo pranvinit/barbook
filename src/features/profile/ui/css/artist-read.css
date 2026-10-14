@@ -1,0 +1,106 @@
+.artist-read {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.artist-read h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.artist-read-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.artist-read-header button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-xxl);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow-sticker);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.artist-read-header button:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+}
+
+.artist-read-header button:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.artist-read-empty {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+/* A scout's note card: mono handwriting-style body on a flat card. */
+.artist-read .artist-read-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 1px solid var(--border-strong);
+  border-top: 5px solid var(--hl-4);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow-sticker);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--font-size-sm);
+  line-height: 1.75;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.artist-read-body > p {
+  margin: 0;
+}
+
+.artist-read-work-on {
+  padding-top: var(--spacing-sm);
+  border-top: 1px dashed var(--border);
+}
+
+.artist-read-strengths {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Strengths as highlighter-marked chips. */
+.artist-read-strengths li {
+  padding: 2px 8px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-xs);
+  background: var(--hl-3);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.artist-read-strengths li:nth-child(3n + 2) {
+  background: var(--hl-1);
+}
+
+.artist-read-strengths li:nth-child(3n + 3) {
+  background: var(--hl-6);
+}

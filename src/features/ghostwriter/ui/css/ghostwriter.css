@@ -1,0 +1,149 @@
+.ghostwriter {
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-md);
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+  overflow-y: auto;
+}
+
+.ghostwriter h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.ghostwriter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+/* Primary action: accent-filled sticker button. */
+.ghostwriter-header button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-xxl);
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow-sticker);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.ghostwriter-header button:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+}
+
+.ghostwriter-header button:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.ghostwriter-hint {
+  margin: var(--spacing-sm) 0 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.ghostwriter-list {
+  margin: var(--spacing-md) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* Index cards: torn-off notes, slightly tilted, lifting on hover. */
+.ghostwriter-list li {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow-sticker);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ghostwriter-list li:nth-child(odd) {
+  rotate: -0.6deg;
+}
+
+.ghostwriter-list li:nth-child(even) {
+  rotate: 0.5deg;
+}
+
+.ghostwriter-list li:hover {
+  rotate: 0deg;
+  transform: translateY(-3px);
+  box-shadow: 4px 6px 0 var(--border-strong);
+}
+
+.ghostwriter-list button {
+  width: 100%;
+  margin: 0;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ghostwriter-list button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -4px;
+}
+
+.ghostwriter-list .bar-text {
+  margin: 0;
+  white-space: pre-line;
+  font-size: var(--font-size-md);
+  overflow-wrap: anywhere;
+}
+
+/* Technique tag as a highlighter chip. */
+.ghostwriter-list .technique {
+  padding: 1px 8px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-xs);
+  background: var(--hl-1);
+  color: var(--accent-ink);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ghostwriter-list .technique[data-technique="punchline"] {
+  background: var(--hl-2);
+}
+.ghostwriter-list .technique[data-technique="multisyllabic"] {
+  background: var(--hl-3);
+}
+.ghostwriter-list .technique[data-technique="storytelling"] {
+  background: var(--hl-4);
+}
+.ghostwriter-list .technique[data-technique="hook"] {
+  background: var(--hl-5);
+}
+
+@media (max-width: 768px) {
+  .ghostwriter {
+    height: 600px;
+    overflow-y: auto;
+  }
+}

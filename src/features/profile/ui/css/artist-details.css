@@ -1,0 +1,48 @@
+.artist-details {
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+  overflow-y: auto;
+}
+
+.statement-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.statement-section > label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* Ruled notebook paper for the statement. */
+textarea.statement-textarea {
+  --rule: 28px;
+  min-height: calc(var(--rule) * 4 + 8px);
+  padding: 4px var(--spacing-md) 0;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--rule) - 1px),
+    var(--paper-line) 0
+  );
+  background-size: 100% var(--rule);
+  background-attachment: local;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--font-size-md);
+  line-height: var(--rule);
+  color: var(--ink);
+  resize: vertical;
+}

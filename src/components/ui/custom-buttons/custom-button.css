@@ -1,53 +1,60 @@
+/* Pill button with a visible label and a sticker shadow that presses on :active. */
 .custom-button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgb(20, 20, 20);
-  border: none;
-  font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 0px 4px var(--button-shadow, var(--accent-glass));
+  gap: var(--spacing-sm);
+  min-height: 44px;
+  padding: 8px var(--spacing-lg);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-xxl);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sticker);
   cursor: pointer;
-  transition-duration: 0.3s;
-  overflow: hidden;
-  position: relative;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.custom-button[data-variant="warning"] {
+  background: var(--accent-warning);
+}
+
+.custom-button[data-variant="danger"] {
+  background: var(--accent-danger);
+}
+
+.custom-button:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+}
+
+.custom-button:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.custom-button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
 }
 
 .svgIcon {
   width: 12px;
-  transition-duration: 0.3s;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
 .svgIcon path {
-  fill: white;
+  fill: currentColor;
 }
 
-.custom-button:hover {
-  width: 140px;
-  border-radius: 50px;
-  transition-duration: 0.3s;
-  background-color: var(--button-bg, var(--accent));
-  align-items: center;
-}
-
-.custom-button:hover .svgIcon {
-  transition-duration: 0.3s;
-  transform: translateY(-200%);
-}
-
-.custom-button::before {
-  position: absolute;
-  bottom: -20px;
-  content: var(--button-text, "Send Flirt");
-  color: white;
-  font-size: 0px;
-}
-
-.custom-button:hover::before {
-  font-size: 13px;
-  opacity: 1;
-  bottom: unset;
-  transition-duration: 0.3s;
+.custom-button:hover:not(:disabled) .svgIcon {
+  transform: translateY(-2px);
 }

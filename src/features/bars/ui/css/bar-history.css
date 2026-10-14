@@ -1,0 +1,29 @@
+.bar-history {
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-md);
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+  overflow-y: auto;
+}
+
+.bar-history h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.bar-history-list {
+  margin: var(--spacing-md) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .bar-history {
+    height: 600px;
+    overflow-y: auto;
+  }
+}

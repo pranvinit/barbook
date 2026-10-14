@@ -2,93 +2,96 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md);
-}
-
-.navbar-brand {
-  display: flex;
-  align-items: center;
   gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-md);
+  color: var(--ink);
 }
 
 .navbar-logo {
-  position: relative;
-  line-height: normal;
-}
-
-.navbar-logo span:nth-child(1) {
-  font-size: 48px;
-}
-
-.navbar-logo span:nth-child(2) {
-  font-size: var(--font-size-lg);
-  transform: rotate(30deg);
-  position: absolute;
-  top: 0;
-  right: 0;
-  animation: pookie 0.5s ease-in-out infinite alternate;
-  animation-play-state: paused;
-}
-
-.navbar-logo:hover span:nth-child(2) {
-  animation-play-state: running;
-}
-
-@keyframes pookie {
-  from {
-    transform: rotate(30deg);
-  }
-  to {
-    transform: rotate(-30deg);
-  }
-}
-
-.logo-text {
-  font-size: var(--font-size-lg);
-  opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.4, 2, 0.6, 1);
   display: inline-block;
+  text-decoration: none;
+  color: var(--ink);
+  line-height: 1;
 }
 
-.navbar-logo:hover ~ .logo-text {
-  opacity: 1;
+.navbar-wordmark {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  padding: 0 var(--spacing-sm);
+  color: var(--accent-ink);
+  z-index: 0;
+}
+
+/* Yellow highlighter swipe sitting behind the wordmark */
+.navbar-wordmark::before {
+  content: "";
+  position: absolute;
+  inset: 8% -2px 4% -2px;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 8%,
+    var(--accent) 92%,
+    transparent 100%
+  );
+  transform: skewX(-8deg) rotate(-1deg);
+  border-radius: var(--radius-xs);
 }
 
 .navbar-actions {
-  width: 300px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--spacing-xl);
-  padding: var(--spacing-sm) 0;
-  border-radius: var(--radius-xxl);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
 }
 
-.navbar-actions button {
-  border-radius: var(--radius-xxl);
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--spacing-sm) var(--spacing-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: var(--radius-xxl);
+  font-family: var(--font-ui);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-.navbar-actions em {
-  margin-left: 8px;
+.nav-pill:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.nav-pill:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 @media (max-width: 768px) {
   .navbar {
-    padding: var(--spacing-sm);
-    gap: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  .navbar-wordmark {
+    font-size: var(--font-size-md);
   }
 
   .navbar-actions {
-    width: unset;
-    flex: 1;
-    gap: var(--spacing-md);
+    gap: 4px;
+    flex-wrap: nowrap;
   }
 
-  .logo-text {
-    display: none;
+  .nav-pill {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-xs);
   }
 }
