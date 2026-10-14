@@ -1,5 +1,7 @@
 .artist-details {
-  flex: 1;
+  /* Fill spare space but never shrink below the content; the column
+     scrolls instead. flex: 1 let it collapse to 0 under a long artist read. */
+  flex: 1 0 auto;
   min-width: 0;
   padding: var(--spacing-md);
   display: flex;
@@ -7,7 +9,6 @@
   gap: var(--spacing-md);
   border-top-left-radius: var(--radius-md);
   border-bottom-left-radius: var(--radius-md);
-  overflow-y: auto;
 }
 
 .statement-section {
