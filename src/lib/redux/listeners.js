@@ -1,26 +1,28 @@
 import { isRejectedWithValue } from "@reduxjs/toolkit";
-import { apiSlice } from "./apiSlice";
+// Import the injected endpoints directly so they exist on every page,
+// not only on pages that happen to load the feature APIs first.
+import { apiSliceWithBars } from "@/features/bars/api/barsApi";
 import { toast } from "react-toastify";
 
 export function setupListeners(startListening) {
   if (typeof window === "undefined") return;
 
   startListening({
-    matcher: apiSlice.endpoints.createBar.matchFulfilled,
+    matcher: apiSliceWithBars.endpoints.createBar.matchFulfilled,
     effect: async (action) => {
       toast.success(`Scored ${action.payload.overall}/10`);
     },
   });
 
   startListening({
-    matcher: apiSlice.endpoints.updateBar.matchFulfilled,
+    matcher: apiSliceWithBars.endpoints.updateBar.matchFulfilled,
     effect: async (action) => {
       toast.success(`Rewrite scored ${action.payload.overall}/10`);
     },
   });
 
   startListening({
-    matcher: apiSlice.endpoints.deleteBar.matchFulfilled,
+    matcher: apiSliceWithBars.endpoints.deleteBar.matchFulfilled,
     effect: async () => {
       toast.info("Bar deleted");
     },
