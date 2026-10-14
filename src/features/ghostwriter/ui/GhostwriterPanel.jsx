@@ -43,7 +43,9 @@ export default function GhostwriterPanel() {
             <li key={i} className="g-fg">
               <button onClick={() => handlePick(item.text)}>
                 <p className="bar-text">{item.text}</p>
-                <span className="technique">{item.technique}</span>
+                <span className="technique" data-technique={item.technique}>
+                  {item.technique}
+                </span>
               </button>
             </li>
           ))}

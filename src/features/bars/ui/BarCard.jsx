@@ -51,7 +51,11 @@ const BarCard = forwardRef(({ bar, isSelected = false, hasActions = false }, ref
           day: "numeric",
           year: "numeric",
         })}
-        {bar.overall != null && <> · {bar.overall}/10</>}
+        {bar.overall != null && (
+          <span className="score-sticker" title="Overall score, out of 10">
+            {bar.overall}/10
+          </span>
+        )}
       </small>
       <div ref={contentRef} className="judgement-content">
         <div className="judgement-inner">
@@ -70,7 +74,7 @@ const BarCard = forwardRef(({ bar, isSelected = false, hasActions = false }, ref
             <EditRoundedIcon fontSize="small" />
           </button>
           <button
-            className="action-button g-fg-color"
+            className="action-button g-fg"
             onClick={() => deleteBar(bar.id)}
             disabled={isDeleting}
             aria-label="Delete bar"

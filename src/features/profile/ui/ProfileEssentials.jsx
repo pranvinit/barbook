@@ -64,9 +64,10 @@ function ProfileEssentials({ profile }) {
           <span className="avatar-placeholder">{(displayName || "?").charAt(0)}</span>
         )}
       </button>
-      <div className="name-input g-fg">
+      <div className="name-input">
         <input
           type="text"
+          className="name-input-field"
           aria-label="Artist name"
           placeholder="Artist name"
           maxLength={60}
@@ -75,6 +76,7 @@ function ProfileEssentials({ profile }) {
         />
         <input
           type="text"
+          className="handle-input"
           aria-label="Handle"
           aria-invalid={handleIsInvalid}
           placeholder="@handle"

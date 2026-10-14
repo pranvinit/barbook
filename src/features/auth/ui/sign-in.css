@@ -1,3 +1,4 @@
+/* Sign-in: a centered sticker panel. */
 .sign-in {
   width: min(420px, calc(100% - 2 * var(--spacing-md)));
   margin: var(--spacing-xxl) auto;
@@ -8,29 +9,99 @@
   gap: var(--spacing-md);
 }
 
+.sign-in h1 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
 .sign-in form {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 }
 
-.sign-in input,
-.sign-in button {
+.sign-in form label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* Flat inputs with an ink border. */
+.sign-in input {
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-xxl);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: var(--font-size-md);
+}
+
+.sign-in input:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 .sign-in button {
-  font-weight: 600;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-xxl);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  box-shadow: var(--shadow-sticker);
+  cursor: pointer;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+.sign-in button:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+}
+
+.sign-in button:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* Primary: email link. */
+.sign-in form button {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Secondary: Google. */
+.sign-in > button {
+  background: var(--surface-raised);
+  color: var(--ink);
 }
 
 .sign-in-divider {
-  text-align: center;
-  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.sign-in-divider::before,
+.sign-in-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-strong);
+  opacity: 0.4;
 }
 
 .sign-in-error {
+  margin: 0;
   color: var(--accent-danger);
   font-size: var(--font-size-sm);
 }
