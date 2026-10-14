@@ -17,3 +17,37 @@
   object-position: center;
   object-fit: cover;
 }
+
+.name-input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name-input input[aria-invalid="true"] {
+  color: var(--accent-danger);
+}
+
+.field-hint {
+  font-size: var(--font-size-xs);
+  color: var(--accent-danger);
+}
+
+.avatar-preview {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+}
+
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 3 / 2;
+  font-size: var(--font-size-xl);
+  text-transform: uppercase;
+  background: var(--secondary);
+}

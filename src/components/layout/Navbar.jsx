@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTheme, toggleTheme } from "@/features/ui/model/uiSlice";
-import { clearProfile } from "@/features/profile/model/profileSlice";
+import { useRouter } from "next/navigation";
+import { signOut } from "@/features/auth/model/authSlice";
+import { useSession } from "@/features/auth/useSession";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import "./navbar.css";
 
@@ -17,6 +19,13 @@ const Navbar = () => {
   const theme = useSelector(selectTheme);
   const dispatch = useDispatch();
   const [logoHovered, setLogoHovered] = useState(false);
+  const { user } = useSession();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await dispatch(signOut());
+    router.push("/login");
+  };
 
   const handleThemeToggle = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -52,13 +61,11 @@ const Navbar = () => {
         )}
       </div>
       <div className="navbar-actions g-bg">
-        <button
-          className="reset-profile g-fg"
-          onClick={() => dispatch(clearProfile())}
-          aria-label="Reset profile"
-        >
-          Reset <em>😶‍🌫️</em>
-        </button>
+        {user && (
+          <button className="sign-out g-fg" onClick={handleSignOut}>
+            Sign out
+          </button>
+        )}
         <button
           className="theme-toggle g-fg"
           onClick={handleThemeToggle}

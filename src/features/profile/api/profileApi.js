@@ -1,38 +1,54 @@
 import { apiSlice } from "@/lib/redux/apiSlice";
 
+// Replaces the cached profile with the server's copy.
+const syncProfile = async (dispatch, queryFulfilled) => {
+  const { data } = await queryFulfilled;
+  dispatch(apiSliceWithProfile.util.updateQueryData("getProfile", undefined, () => data));
+};
+
 export const apiSliceWithProfile = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProfile: builder.query({
-      query: (uuid) => ({
-        url: `/profile/${uuid}`,
-        method: "GET",
-      }),
+      query: () => "profile",
+      providesTags: ["Profile"],
     }),
+
     updateProfile: builder.mutation({
-      query: ({ uuid, profileData }) => ({
-        url: `/profile/${uuid}`,
-        body: { profileData },
-        method: "PATCH",
-      }),
+      query: (fields) => ({ url: "profile", method: "PATCH", body: fields }),
+      // Optimistic: apply locally, roll back if the server rejects it.
+      async onQueryStarted(fields, { dispatch, queryFulfilled }) {
+        const patch = dispatch(
+          apiSliceWithProfile.util.updateQueryData("getProfile", undefined, (draft) => {
+            Object.assign(draft, fields);
+          })
+        );
+        try {
+          await syncProfile(dispatch, queryFulfilled);
+        } catch {
+          patch.undo();
+        }
+      },
     }),
-    judgeProfile: builder.query({
-      query: (profileData) => ({
-        url: "/profile/judge-profile",
-        body: { profileData },
-        method: "POST",
-      }),
-    }),
+
     uploadAvatar: builder.mutation({
-      query: ({ uuid, file }) => {
+      query: (file) => {
         const formData = new FormData();
         formData.append("avatar", file);
-        formData.append("uuid", uuid);
+        return { url: "profile/avatar", method: "POST", body: formData };
+      },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await syncProfile(dispatch, queryFulfilled);
+        } catch {}
+      },
+    }),
 
-        return {
-          url: "/profile/upload-avatar",
-          method: "POST",
-          body: formData,
-        };
+    refreshArtistRead: builder.mutation({
+      query: () => ({ url: "profile/read", method: "POST" }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await syncProfile(dispatch, queryFulfilled);
+        } catch {}
       },
     }),
   }),
@@ -41,6 +57,6 @@ export const apiSliceWithProfile = apiSlice.injectEndpoints({
 export const {
   useGetProfileQuery,
   useUpdateProfileMutation,
-  useJudgeProfileQuery,
   useUploadAvatarMutation,
+  useRefreshArtistReadMutation,
 } = apiSliceWithProfile;

@@ -2,15 +2,16 @@
 import "./page.css";
 
 import { useState } from "react";
-import { useAuth } from "../lib/hooks/useAuth";
+import { useSession } from "@/features/auth/useSession";
+import { useProfile } from "@/features/profile/useProfile";
 
 // component imports
 import BarEditor from "../features/bars/ui/BarEditor";
 import ProfileEssentials from "../features/profile/ui/ProfileEssentials";
-import ProfileInterests from "../features/profile/ui/ProfileInterests";
+import ArtistDetails from "../features/profile/ui/ArtistDetails";
 import GhostwriterPanel from "../features/ghostwriter/ui/GhostwriterPanel";
 import TopBars from "../features/bars/ui/TopBars";
-import ProfileJudgement from "../features/profile/ui/ProfileJudgement";
+import ArtistRead from "../features/profile/ui/ArtistRead";
 import BarHistory from "../features/bars/ui/BarHistory";
 import AuthLoading from "../components/ui/auth-loading/AuthLoading";
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
@@ -20,11 +21,16 @@ import { useSelector } from "react-redux";
 import { selectTheme } from "@/features/ui/model/uiSlice";
 
 function Home() {
-  const { authLoading, profileData } = useAuth();
+  const { isLoading: isSessionLoading } = useSession();
+  const { data: profile, isError } = useProfile();
 
   const [activeTab, setActiveTab] = useState("top");
 
-  if (authLoading) {
+  if (isError) {
+    return <p className="notebook-error">Couldn't load your notebook. Refresh to try again.</p>;
+  }
+
+  if (isSessionLoading || !profile) {
     return <AuthLoading />;
   }
 
@@ -36,17 +42,10 @@ function Home() {
         </div>
         <div className="center">
           <div className="center-top g-bg">
-            <ProfileEssentials
-              name={profileData.name}
-              avatar_url={profileData.avatar_url}
-            />
-            <ProfileJudgement />
+            <ProfileEssentials key={profile.id} profile={profile} />
+            <ArtistRead read={profile.artist_read} />
           </div>
-          <ProfileInterests
-            hobbies={profileData.hobbies}
-            traits={profileData.traits}
-            bio={profileData.bio}
-          />
+          <ArtistDetails key={profile.id} profile={profile} />
         </div>
         <div className="right">
           <div className="tab-bar g-bg">

@@ -1,19 +1,9 @@
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
-import { clearProfile } from "@/features/profile/model/profileSlice";
 import { toast } from "react-toastify";
 
 export function setupListeners(startListening) {
   if (typeof window === "undefined") return;
-
-  startListening({
-    matcher: apiSlice.endpoints.updateProfile.matchFulfilled,
-    effect: async (action) => {
-      const { profileData } = action.meta.arg.originalArgs;
-      const updatedField = Object.keys(profileData)[0];
-      toast.success(`Profile ${updatedField} updated`);
-    },
-  });
 
   startListening({
     matcher: apiSlice.endpoints.createBar.matchFulfilled,
@@ -42,13 +32,6 @@ export function setupListeners(startListening) {
     effect: async (action) => {
       const message = action.payload?.data?.error;
       if (message) toast.error(message);
-    },
-  });
-
-  startListening({
-    actionCreator: clearProfile.fulfilled,
-    effect: async () => {
-      toast.info("Profile cleared");
     },
   });
 }
