@@ -2,31 +2,47 @@ import "./globals.css";
 import { StoreProvider } from "../lib/redux/provider";
 import Navbar from "../components/layout/Navbar";
 import AuthListener from "@/features/auth/ui/AuthListener";
-import { Poppins, Inter } from "next/font/google";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--primary-font",
-});
+import { Inter, IBM_Plex_Mono, Permanent_Marker } from "next/font/google";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--heading-font",
+  display: "swap",
+  variable: "--font-ui",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-mono",
+});
+
+const permanentMarker = Permanent_Marker({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-display",
 });
 
 export const metadata = {
-  title: "Flirty",
-  description: "Flirty - Your AI-powered flirtation assistant",
-  icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>😉</text></svg>",
-  },
+  title: { default: "Barbook", template: "%s · Barbook" },
+  description:
+    "An AI notebook for rap bars: rhyme maps, bar scoring and a ghostwriter for writer's block.",
 };
+
+// Runs before first paint so a saved theme never flashes the wrong colours.
+const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.dataset.theme=t;}catch(e){}})();`;
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${ibmPlexMono.variable} ${permanentMarker.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <StoreProvider>
           <AuthListener />
