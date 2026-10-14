@@ -1,0 +1,311 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-xl);
+  max-width: 1100px;
+  margin: 0 auto;
+  color: var(--ink);
+}
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.hero-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.hero-subhead {
+  margin: var(--spacing-md) 0 0;
+  font-family: var(--font-ui);
+  font-size: var(--font-size-lg);
+  line-height: 1.5;
+  color: var(--ink-muted);
+  max-width: 34ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.cta-sticker,
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--font-ui);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+}
+
+.cta-sticker {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 2px solid var(--border-strong);
+  box-shadow: var(--shadow-sticker);
+}
+
+.cta-secondary {
+  color: var(--ink);
+  border: 2px solid var(--border-strong);
+  background: transparent;
+}
+
+.cta-sticker:hover,
+.cta-secondary:hover {
+  text-decoration: underline;
+}
+
+.cta-sticker:focus-visible,
+.cta-secondary:focus-visible,
+.landing a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* Notebook page visual */
+.notebook-card {
+  position: relative;
+  margin: 0;
+  padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-xl) calc(var(--spacing-lg) + 40px);
+  min-height: 280px;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    var(--paper-line) 31px,
+    var(--paper-line) 32px
+  );
+  background-position: 0 var(--spacing-xl);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sticker);
+  overflow: hidden;
+}
+
+.notebook-margin {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 36px;
+  width: 2px;
+  background: var(--margin-line);
+}
+
+.notebook-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-right: 88px; /* keep bars clear of the score sticker */
+}
+
+.notebook-lines .bar-text {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+  line-height: 32px;
+  color: var(--ink);
+}
+
+.rhyme {
+  color: var(--accent-ink);
+  padding: 0 2px;
+  border-radius: var(--radius-xs);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.rhyme-a {
+  background: var(--hl-1);
+}
+
+.rhyme-b {
+  background: var(--hl-2);
+}
+
+.sticker-score {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sticker);
+  transform: rotate(6deg);
+}
+
+.sticker-score-label {
+  font-family: var(--font-ui);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sticker-score-value {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  line-height: 1;
+}
+
+.rubric {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-md) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  border-top: 2px dashed var(--border);
+}
+
+.rubric-row {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) 2.25rem;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-family: var(--font-ui);
+  font-size: var(--font-size-sm);
+  color: var(--ink);
+}
+
+.rubric-track {
+  display: block;
+  height: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+}
+
+.rubric-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.rubric-value {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Features */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.section-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--font-size-xl);
+  color: var(--ink);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.feature-card {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.feature-card p {
+  margin: var(--spacing-sm) 0 0;
+  font-family: var(--font-ui);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.feature-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--font-size-lg);
+  color: var(--ink);
+}
+
+/* Footer */
+.landing-footer {
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border);
+  font-family: var(--font-ui);
+  font-size: var(--font-size-sm);
+  color: var(--ink-muted);
+}
+
+.landing-footer p {
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 880px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .feature-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .landing {
+    padding: var(--spacing-lg) var(--spacing-md);
+    gap: var(--spacing-xl);
+  }
+
+  .notebook-card {
+    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-lg) var(--spacing-xl);
+  }
+
+  .notebook-margin {
+    left: 24px;
+  }
+
+  .notebook-lines {
+    padding-right: 72px;
+  }
+
+  .notebook-lines .bar-text {
+    font-size: var(--font-size-sm);
+  }
+
+  .sticker-score {
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+  }
+}
