@@ -29,7 +29,9 @@ li.bar-card[data-selected="true"] {
   color: var(--ink);
 }
 
-li.bar-card[data-selected="true"] .bar-text {
+/* Highlight sits on an inline span so each wrapped line gets its own
+   marker stroke; on the block <p> it painted one band across all lines. */
+li.bar-card[data-selected="true"] .bar-text-line {
   background: linear-gradient(transparent 62%, var(--hl-1) 62%, var(--hl-1) 92%, transparent 92%);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;

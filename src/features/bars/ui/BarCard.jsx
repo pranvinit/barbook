@@ -33,7 +33,9 @@ const BarCard = forwardRef(({ bar, isSelected = false, hasActions = false }, ref
   return (
     <li ref={ref} data-selected={isSelected} className="bar-card g-fg">
       <div className="bar-header">
-        <p className="bar-text">{bar.text}</p>
+        <p className="bar-text">
+          <span className="bar-text-line">{bar.text}</span>
+        </p>
         <div className="bar-icons g-fg-color">
           <button
             onClick={() => setIsExpanded((prev) => !prev)}
