@@ -13,7 +13,7 @@ import GhostwriterPanel from "@/features/ghostwriter/ui/GhostwriterPanel";
 import TopBars from "@/features/bars/ui/TopBars";
 import ArtistRead from "@/features/profile/ui/ArtistRead";
 import BarHistory from "@/features/bars/ui/BarHistory";
-import AuthLoading from "@/components/ui/auth-loading/AuthLoading";
+import ScribbleLoader from "@/components/ui/scribble-loader/ScribbleLoader";
 import DiamondRoundedIcon from "@mui/icons-material/DiamondRounded";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import ThemeManager from "@/components/ThemeManager";
@@ -31,7 +31,7 @@ function Home() {
   }
 
   if (isSessionLoading || !profile) {
-    return <AuthLoading />;
+    return <ScribbleLoader />;
   }
 
   return (
