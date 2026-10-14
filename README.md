@@ -69,8 +69,6 @@ supabase link --project-ref <your-project-ref>
 supabase db push
 ```
 
-If the project still has the old flirty tables, they are renamed to `legacy_profiles` and `legacy_flirts` and locked down, not dropped.
-
 ### 4. Auth settings
 
 In Supabase → Authentication → URL Configuration:

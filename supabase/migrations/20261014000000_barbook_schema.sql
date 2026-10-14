@@ -2,48 +2,15 @@
 -- Ownership is enforced with row-level security; API routes use the
 -- caller's session, so auth.uid() is always the signed-in user.
 
-create extension if not exists citext;
-create extension if not exists vector;
-
--- ---------------------------------------------------------------------------
--- Keep flirty data around (renamed, locked down) instead of dropping it.
--- ---------------------------------------------------------------------------
-do $$
-declare
-  r record;
-begin
-  if to_regclass('public.flirts') is not null then
-    alter table public.flirts rename to legacy_flirts;
-  end if;
-
-  if to_regclass('public.profiles') is not null
-     and not exists (
-       select 1 from information_schema.columns
-       where table_schema = 'public' and table_name = 'profiles' and column_name = 'handle'
-     ) then
-    alter table public.profiles rename to legacy_profiles;
-  end if;
-
-  -- Free up index names (e.g. profiles_pkey) for the new tables.
-  for r in
-    select indexname from pg_indexes
-    where schemaname = 'public'
-      and tablename in ('legacy_profiles', 'legacy_flirts')
-      and indexname not like 'legacy\_%'
-  loop
-    execute format('alter index public.%I rename to %I', r.indexname, 'legacy_' || r.indexname);
-  end loop;
-end $$;
-
-alter table if exists public.legacy_profiles enable row level security;
-alter table if exists public.legacy_flirts enable row level security;
+create extension if not exists citext with schema extensions;
+create extension if not exists vector with schema extensions;
 
 -- ---------------------------------------------------------------------------
 -- Tables
 -- ---------------------------------------------------------------------------
 create table public.profiles (
   id           uuid primary key references auth.users (id) on delete cascade,
-  handle       citext unique check (handle ~* '^[a-z0-9_]{3,24}$'),
+  handle       extensions.citext unique check (handle ~* '^[a-z0-9_]{3,24}$'),
   display_name text check (char_length(display_name) <= 60),
   avatar_url   text,
   statement    text not null default '' check (char_length(statement) <= 1000),
@@ -73,7 +40,7 @@ create table public.bars (
   overall    numeric(3, 1) check (overall between 0 and 10),
   feedback   text,
   rhyme_map  jsonb,                    -- [{group: "A", spans: [[start, end], ...]}]
-  embedding  vector(768),
+  embedding  extensions.vector(768),
   is_public  boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
