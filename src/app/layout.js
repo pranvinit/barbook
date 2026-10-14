@@ -1,6 +1,7 @@
 import "./globals.css";
 import { StoreProvider } from "../lib/redux/provider";
 import Navbar from "../components/layout/Navbar";
+import AuthListener from "@/features/auth/ui/AuthListener";
 import { Poppins, Inter } from "next/font/google";
 
 const poppins = Poppins({
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <body>
         <StoreProvider>
+          <AuthListener />
           <Navbar />
           {children}
         </StoreProvider>
